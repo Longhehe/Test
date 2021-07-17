@@ -8,16 +8,10 @@ import com.example.lesson.entity.Lesson
 import com.google.gson.reflect.TypeToken
 import java.util.*
 
-class LessonPresenter {
+class LessonPresenter(var activity:LessonActivity) {
     companion object{
         private const val LESSON_PATH = "lessons"
     }
-
-   private var activity:LessonActivity
-
-   constructor(activity: LessonActivity) {
-       this.activity = activity
-   }
 
     private var lessons: List<Lesson> = ArrayList()
     private val type = object : TypeToken<List<Lesson>>() {}.type
@@ -36,12 +30,6 @@ class LessonPresenter {
     }
 
     fun showPlayback() {
-        val playbackLessons: MutableList<Lesson> = ArrayList()
-        for (lesson in lessons) {
-            if (lesson.state === Lesson.State.PLAYBACK) {
-                playbackLessons.add(lesson)
-            }
-        }
-        activity.showResult(playbackLessons)
+        activity.showResult(lessons.filter { it.state === Lesson.State.PLAYBACK })
     }
 }
